@@ -3,7 +3,6 @@ import styled from "styled-components";
 const StyledTag = styled.button`
   border: 0px;
   height: 30px;
-  width: 40px;
   background: lightgrey;
   border-radius: 4px;
   margin-top: 10px;
