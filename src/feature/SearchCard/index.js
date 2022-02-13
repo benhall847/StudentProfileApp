@@ -41,6 +41,7 @@ const SearchCard = () => {
   const { state, dispatch } = useContext(GlobalContext);
   const { students, searchInput, tagSearchInput } = state;
 
+  // GET API call for student data
   useEffect(() => {
     const fetchStudents = async () => {
       const data = await fetch("https://api.hatchways.io/assessment/students");
@@ -50,16 +51,23 @@ const SearchCard = () => {
     fetchStudents();
   }, []);
 
-  const filteredStudents = students.filter(({ firstName, lastName, tags }) => {
-    const fullName = (firstName + " " + lastName).toLowerCase();
-    const includesTag = tagSearchInput
-      ? tags &&
-        tags.filter((tag) =>
-          tag.toLowerCase().includes(tagSearchInput.toLowerCase())
-        ).length > 0
-      : true;
-    return fullName.includes(searchInput.toLowerCase()) && includesTag;
-  });
+  // Filter by name & tag
+  const filteredStudents = students.filter(
+    ({ firstName, lastName, tags }, i) => {
+      const fullName = (firstName + " " + lastName).toLowerCase();
+      // I also track the index to allow removing of tags
+      students[i].index = i;
+      // Filter by tag
+      const includesTag = tagSearchInput
+        ? tags &&
+          tags.filter((tag) =>
+            tag.toLowerCase().includes(tagSearchInput.toLowerCase())
+          ).length > 0
+        : true;
+      // Filter by name & return result
+      return fullName.includes(searchInput.toLowerCase()) && includesTag;
+    }
+  );
 
   return (
     <CardBody>
@@ -79,8 +87,12 @@ const SearchCard = () => {
       />
       <Results>
         {filteredStudents &&
-          filteredStudents.map((eaStudent, i) => (
-            <StudentCard {...eaStudent} key={eaStudent.id} index={i} />
+          filteredStudents.map((eaStudent) => (
+            <StudentCard
+              {...eaStudent}
+              key={eaStudent.id}
+              index={eaStudent.index}
+            />
           ))}
       </Results>
     </CardBody>

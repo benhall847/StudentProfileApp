@@ -56,10 +56,7 @@ const StyledContent = styled.div`
   display: ${({ viewContent }) => (viewContent ? "block" : "none")};
 `;
 
-const StyledTags = styled.div``;
-
 const StudentCard = ({
-  city,
   company,
   email,
   firstName,
@@ -97,7 +94,7 @@ const StudentCard = ({
                 <TestResult result={result} key={id} />
               ))}
           </StyledContent>
-          <StyledTags>
+          <div>
             {tags &&
               tags.map((tag, i) => (
                 <Tag
@@ -108,7 +105,7 @@ const StudentCard = ({
                   }}
                 />
               ))}
-          </StyledTags>
+          </div>
           <UserInput
             value={userInput}
             onChange={(e) => {

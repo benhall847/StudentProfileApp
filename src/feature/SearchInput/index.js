@@ -14,7 +14,7 @@ export const StyledInput = styled.input`
     border-bottom: solid grey 1.2px;
   }
 `;
-
+// Reusable component for future features
 const SearchInput = (props) => {
   return <StyledInput {...props} />;
 };
